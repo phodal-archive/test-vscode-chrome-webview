@@ -1,8 +1,17 @@
-# Hello World Sample
+# Cat Coding — A Webview API Sample
 
-This is a Hello World example that shows you how to use VS Code API.
+Demonstrates VS Code's [webview API](https://code.visualstudio.com/api/extension-guides/webview). This includes:
 
-Guide for this sample: https://code.visualstudio.com/api/get-started/your-first-extension.
+- Creating and showing a basic webview.
+- Dynamically updating a webview's content.
+- Loading local content in a webview.
+- Running scripts in a webview.
+- Sending message from an extension to a webview.
+- Sending messages from a webview to an extension.
+- Using a basic content security policy.
+- Webview lifecycle and handling dispose.
+- Saving and restoring state when the panel goes into the background.
+- Serialization and persistence across VS Code reboots.
 
 ## Demo
 
@@ -12,16 +21,14 @@ Guide for this sample: https://code.visualstudio.com/api/get-started/your-first-
 
 ### `vscode` module
 
-- [`commands.registerCommand`](https://code.visualstudio.com/api/references/vscode-api#commands.registerCommand)
-- [`window.showInformationMessage`](https://code.visualstudio.com/api/references/vscode-api#window.showInformationMessage)
+- [`window.createWebviewPanel`](https://code.visualstudio.com/api/references/vscode-api#window.createWebviewPanel)
+- [`window.registerWebviewPanelSerializer`](https://code.visualstudio.com/api/references/vscode-api#window.registerWebviewPanelSerializer)
 
-### Contribution Points
+## Running the example
 
-- [`contributes.commands`](https://code.visualstudio.com/api/references/contribution-points#contributes.commands)
+- Open this example in VS Code 1.25+
+- `npm install`
+- `npm run watch` or `npm run compile`
+- `F5` to start debugging
 
-## Running the Sample
-
-- Run `npm install` in terminal to install dependencies
-- Run the `Run Extension` target in the Debug View. This will:
-	- Start a task `npm: watch` to compile the code
-	- Run the extension in a new VS Code window
+Run the `Cat Coding: Start cat coding session` to create the webview.
