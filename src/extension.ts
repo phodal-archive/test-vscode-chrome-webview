@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import {LunaProjectHelper} from './utils/LunaProjectHelper';
 import {TsdHelper} from './utils/tsdHelper';
 import {CatCodingPanel} from './CatCodingPanel';
+import {LunaCompletionProvider} from './extension/completionProviders';
 
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders((event) => onChangeWorkspaceFolders(context, event)));
@@ -66,6 +67,21 @@ function onFolderAdded(context: vscode.ExtensionContext, folder: vscode.Workspac
     let lunaTypings: string[] = [
       path.join('luna', 'luna.d.ts'),
     ];
+
+    if (LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
+      context.subscriptions.push(
+        vscode.languages.registerCompletionItemProvider(
+          LunaCompletionProvider.HTML_DOCUMENT_SELECTOR,
+          new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.html.snippets.json'))));
+      context.subscriptions.push(
+        vscode.languages.registerCompletionItemProvider(
+          LunaCompletionProvider.JS_DOCUMENT_SELECTOR,
+          new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.js.snippets.json'))));
+      context.subscriptions.push(
+        vscode.languages.registerCompletionItemProvider(
+          LunaCompletionProvider.TS_DOCUMENT_SELECTOR,
+          new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.ts.snippets.json'))));
+    }
 
     TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(lunaProjectRoot), lunaTypings, lunaProjectRoot);
   }

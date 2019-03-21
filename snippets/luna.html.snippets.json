@@ -1,0 +1,17 @@
+{
+    "lunaFooter": {
+        "prefix": "luna_footer",
+        "body": [
+            "<luna-footer align-title=\"${1:left}\" class=\"${2:bar-assertive}\">",
+            "\t<div class=\"buttons\">",
+            "\t\t<button class=\"button\" ng-click=\"${3:doSomething()}\">${4:Left Button}</button>",
+            "\t</div>",
+            "\t<h1 class=\"title\">${5:Title}</h1>",
+            "\t<div class=\"buttons\">",
+            "\t\t<button class=\"button\" ng-click=\"${6:doSomething()}\">${7:Right Button}</button>",
+            "\t</div>",
+            "</luna-footer>"
+        ],
+        "description": "A snippet for an luna-footer element"
+    }
+}

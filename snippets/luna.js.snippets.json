@@ -1,0 +1,28 @@
+{
+  "lunaCode": {
+    "prefix": "luna_code",
+    "body": [
+      "// Don't forget to inject the \\$ionicActionSheet service to your controller!",
+      "// To fully enable IntelliSense for the \\$ionicActionSheet service, add the following line to the JSDoc header of your controller:",
+      "// @param {ionic.actionSheet.IonicActionSheetService} \\$ionicActionSheet – The \\$ionicActionSheet service",
+      "\\$scope.${showActionSheet} = function() {",
+      "\t// Show the action sheet",
+      "\tvar ${hideSheet} = \\$ionicActionSheet.show({",
+      "\t\tbuttons: [",
+      "\t\t\t{ text: '${1:My button}' }",
+      "\t\t],",
+      "\t\tdestructiveText: '${2:Delete}',",
+      "\t\ttitleText: '${3:Modify your album}',",
+      "\t\tcancelText: '${4:Cancel}',",
+      "\t\tcancel: function() {",
+      "\t\t\t${hideSheet}();",
+      "\t\t},",
+      "\t\tbuttonClicked: function(${index}) {",
+      "\t\t\t${5:return true;}",
+      "\t\t}",
+      "\t});",
+      "};"
+    ],
+    "description": "A snippet for $lunaCode"
+  }
+}
