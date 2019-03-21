@@ -1,17 +1,3 @@
-interface QRCodeResponseSuccess {
-  data: {
-    message: string
-  };
-  status: 'success';
-}
-
-interface QRCodeResponseError {
-  data: {
-    message: string
-  };
-  status: 'success' | 'fail';
-}
-
 interface Luna {
   /** Gets Luna framework version */
   version: string;
@@ -19,10 +5,10 @@ interface Luna {
   /** Return the current device (given by cordova). */
   ready(): boolean;
 
-  /** Call the Modules */
+  /** Call the api2 Modules */
   call(moduleName: 'api2'): Promise<any>;
 
-  /** Call the Modules */
+  /** Call the qrcode Modules */
   call(moduleName: 'qrcode'): Promise<QRCodeResponseSuccess | QRCodeResponseError>;
 }
 

@@ -1,0 +1,5 @@
+﻿{
+  "QRCode": {
+    "typingFile": "cordova/plugins/qrcode.d.ts"
+  }
+}

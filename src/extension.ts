@@ -5,6 +5,9 @@ import {TsdHelper} from './utils/tsdHelper';
 import {CatCodingPanel} from './CatCodingPanel';
 import {LunaCompletionProvider} from './extension/completionProviders';
 
+let PLUGIN_TYPE_DEFS_FILENAME = 'pluginTypings.json';
+let PLUGIN_TYPE_DEFS_PATH = path.resolve(__dirname, '..', PLUGIN_TYPE_DEFS_FILENAME);
+
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders((event) => onChangeWorkspaceFolders(context, event)));
   const workspaceFolders: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders;
@@ -64,25 +67,49 @@ function onFolderAdded(context: vscode.ExtensionContext, folder: vscode.Workspac
   const lunaProjectRoot = LunaProjectHelper.getLunaProjectRoot(workspaceRoot);
 
   if (LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
-    let lunaTypings: string[] = [
-      path.join('luna', 'luna.d.ts'),
-    ];
-
-    if (LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
-      context.subscriptions.push(
-        vscode.languages.registerCompletionItemProvider(
-          LunaCompletionProvider.HTML_DOCUMENT_SELECTOR,
-          new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.html.snippets.json'))));
-      context.subscriptions.push(
-        vscode.languages.registerCompletionItemProvider(
-          LunaCompletionProvider.JS_DOCUMENT_SELECTOR,
-          new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.js.snippets.json'))));
-      context.subscriptions.push(
-        vscode.languages.registerCompletionItemProvider(
-          LunaCompletionProvider.TS_DOCUMENT_SELECTOR,
-          new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.ts.snippets.json'))));
-    }
-
-    TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(lunaProjectRoot), lunaTypings, lunaProjectRoot);
+    return;
   }
+
+  let lunaTypings: string[] = [
+    path.join('luna', 'luna.d.ts'),
+  ];
+
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      LunaCompletionProvider.HTML_DOCUMENT_SELECTOR,
+      new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.html.snippets.json'))));
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      LunaCompletionProvider.JS_DOCUMENT_SELECTOR,
+      new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.js.snippets.json'))));
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      LunaCompletionProvider.TS_DOCUMENT_SELECTOR,
+      new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.ts.snippets.json'))));
+
+  TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(lunaProjectRoot), lunaTypings, lunaProjectRoot);
+
+  addPluginTypeDefinitions(lunaProjectRoot);
+}
+
+function getPluginTypingsJson(): any {
+  console.log(PLUGIN_TYPE_DEFS_PATH);
+
+  if (LunaProjectHelper.existsSync(PLUGIN_TYPE_DEFS_PATH)) {
+    return require(PLUGIN_TYPE_DEFS_PATH);
+  }
+
+  console.error('Luna plugin type declaration mapping file \'pluginTypings.json\' is missing from the extension folder.');
+  return null;
+}
+
+function addPluginTypeDefinitions(projectRoot: string): void {
+  let pluginTypings = getPluginTypingsJson();
+  console.log(pluginTypings);
+  if (!pluginTypings) {
+    return;
+  }
+
+  TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(projectRoot),
+    pluginTypings, projectRoot);
 }

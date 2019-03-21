@@ -12,6 +12,7 @@ export class LunaProjectHelper {
   private static Luna_PROJECT_FILE = 'luna.project';
   private static VSCODE_DIR = '.vscode';
   private static PROJECT_TYPINGS_FOLDERNAME = 'typings';
+  private static PROJECT_TYPINGS_PLUGINS_FOLDERNAME = 'plugins';
 
   public static isLunaProject(projectRoot: string): boolean {
     if (fs.existsSync(path.join(projectRoot, LunaProjectHelper.Luna_PROJECT_FILE))) {
@@ -95,5 +96,13 @@ export class LunaProjectHelper {
 
   public static getInstalledPluginDetails(projectRoot: string, pluginId: string): IPluginDetails {
     return null;
+  }
+
+  /**
+   *  Helper function to get the path to Ionic plugin type definitions folder
+   */
+  public static getLunaPluginTypeDefsPath(projectRoot: string): string {
+    return path.resolve(LunaProjectHelper.getOrCreateTypingsTargetPath(projectRoot),
+      LunaProjectHelper.PROJECT_TYPINGS_PLUGINS_FOLDERNAME);
   }
 }
