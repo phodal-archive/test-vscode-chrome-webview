@@ -1,5 +1,5 @@
 {
-	"name": "cat-coding",
+	"name": "luna-coding",
 	"description": "Cat Coding - A Webview API Sample",
 	"version": "0.0.1",
 	"publisher": "vscode-samples",
@@ -15,29 +15,71 @@
 		"onWebviewPanel:catCoding"
 	],
 	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "catCoding.start",
-				"title": "Start cat coding session",
-				"category": "Cat Coding"
-			},
-			{
-				"command": "catCoding.doRefactor",
-				"title": "Do some refactoring",
-				"category": "Cat Coding"
-			}
-		]
-	},
 	"scripts": {
 		"vscode:prepublish": "tsc -p ./",
 		"compile": "tsc -p ./",
 		"watch": "tsc -w -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
-	"dependencies": {},
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "workspaceContains:luna.project"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "luna.start",
+        "title": "Start cat coding session",
+        "category": "Luna Coding"
+      },
+      {
+        "command": "luna.doRefactor",
+        "title": "Do some refactoring",
+        "category": "Luna Coding"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Luna Tools",
+        "properties": {
+          "cordova.runArguments": {
+            "type": "array",
+            "default": [],
+            "description": "Run arguments to be passed to 'cordova run/build <platform>' or 'ionic serve' command",
+            "scope": "resource"
+          },
+          "cordova.cordovaExecutable": {
+            "type": "string",
+            "default": "",
+            "description": "Path to local cordova/ionic executable",
+            "scope": "resource"
+          },
+          "cordova.env": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Environment variables passed to the program.",
+            "default": {},
+            "scope": "resource"
+          },
+          "cordova.envFile": {
+            "type": "string",
+            "description": "Absolute path to a file containing environment variable definitions.",
+            "scope": "resource"
+          }
+        }
+      }
+    ]
+  },
+	"dependencies": {
+		"q": "^1.5.1",
+		"winreg": "latest"
+	},
 	"devDependencies": {
 		"@types/node": "^10.5.2",
+    "@types/q": "^1.0.3",
 		"tslint": "^5.11.0",
 		"typescript": "^2.9.2",
 		"vscode": "^1.1.29"

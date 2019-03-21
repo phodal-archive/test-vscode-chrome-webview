@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
+import {LunaProjectHelper} from './utils/LunaProjectHelper';
+import {TsdHelper} from './utils/tsdHelper';
 
 const cats = {
   'Coding Cat': 'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
@@ -7,12 +9,21 @@ const cats = {
   'Testing Cat': 'https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif'
 };
 
-export function activate(context: vscode.ExtensionContext) {
-  context.subscriptions.push(vscode.commands.registerCommand('catCoding.start', () => {
+export function activate(context: vscode.ExtensionContext): void {
+  context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders((event) => onChangeWorkspaceFolders(context, event)));
+  const workspaceFolders: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders;
+  // if (workspaceFolders) {
+  //   registerCordovaCommands(context);
+  //   workspaceFolders.forEach((folder: vscode.WorkspaceFolder) => {
+  //     onFolderAdded(context, folder);
+  //   });
+  // }
+
+  context.subscriptions.push(vscode.commands.registerCommand('luna.start', () => {
     CatCodingPanel.createOrShow(context.extensionPath);
   }));
 
-  context.subscriptions.push(vscode.commands.registerCommand('catCoding.doRefactor', () => {
+  context.subscriptions.push(vscode.commands.registerCommand('luna.doRefactor', () => {
     if (CatCodingPanel.currentPanel) {
       CatCodingPanel.currentPanel.doRefactor();
     }
@@ -25,6 +36,46 @@ export function activate(context: vscode.ExtensionContext) {
         CatCodingPanel.revive(webviewPanel, context.extensionPath);
       }
     });
+  }
+}
+
+export function deactivate(): void {
+  console.log('Extension has been deactivated');
+}
+
+
+function onChangeWorkspaceFolders(context: vscode.ExtensionContext, event: vscode.WorkspaceFoldersChangeEvent) {
+  console.log(event);
+  if (event.removed.length) {
+    event.removed.forEach((folder) => {
+      onFolderRemoved(folder);
+    });
+  }
+
+  if (event.added.length) {
+    event.added.forEach((folder) => {
+      onFolderAdded(context, folder);
+    });
+  }
+}
+
+
+function onFolderRemoved(folder: vscode.WorkspaceFolder): void {
+
+}
+
+function onFolderAdded(context: vscode.ExtensionContext, folder: vscode.WorkspaceFolder): void {
+  const workspaceRoot = folder.uri.fsPath;
+  const lunaProjectRoot = LunaProjectHelper.getLunaProjectRoot(workspaceRoot);
+
+  console.log('aa');
+  if (LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
+    console.log('aaaaa');
+    let lunaTypings: string[] = [
+      path.join('luna', 'luna.d.ts'),
+    ];
+
+    TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(lunaProjectRoot), lunaTypings, lunaProjectRoot);
   }
 }
 
