@@ -8,8 +8,6 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders((event) => onChangeWorkspaceFolders(context, event)));
   const workspaceFolders: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders;
 
-  console.log('------------');
-  console.log(workspaceFolders);
   if (workspaceFolders) {
     registerLunaCommands(context);
     workspaceFolders.forEach((folder: vscode.WorkspaceFolder) => {
@@ -20,7 +18,6 @@ export function activate(context: vscode.ExtensionContext): void {
   if (vscode.window.registerWebviewPanelSerializer) {
     vscode.window.registerWebviewPanelSerializer(CatCodingPanel.viewType, {
       async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {
-        console.log(`Got state: ${state}`);
         CatCodingPanel.revive(webviewPanel, context.extensionPath);
       }
     });
@@ -44,7 +41,6 @@ function registerLunaCommands(context: vscode.ExtensionContext) {
 }
 
 function onChangeWorkspaceFolders(context: vscode.ExtensionContext, event: vscode.WorkspaceFoldersChangeEvent) {
-  console.log(event);
   if (event.removed.length) {
     event.removed.forEach((folder) => {
       onFolderRemoved(folder);
@@ -66,9 +62,7 @@ function onFolderAdded(context: vscode.ExtensionContext, folder: vscode.Workspac
   const workspaceRoot = folder.uri.fsPath;
   const lunaProjectRoot = LunaProjectHelper.getLunaProjectRoot(workspaceRoot);
 
-  console.log('aa');
   if (LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
-    console.log('aaaaa');
     let lunaTypings: string[] = [
       path.join('luna', 'luna.d.ts'),
     ];

@@ -9,7 +9,7 @@ import {LunaProjectHelper} from './LunaProjectHelper';
 
 export class TsdHelper {
   private static LUNA_TYPINGS_FOLDERNAME = 'LunaTypings';
-  private static LUNA_TYPINGS_PATH = path.resolve(__dirname, '..', '..', '..', TsdHelper.LUNA_TYPINGS_FOLDERNAME);
+  private static LUNA_TYPINGS_PATH = path.resolve(__dirname, '..', '..', TsdHelper.LUNA_TYPINGS_FOLDERNAME);
   private static USER_TYPINGS_FOLDERNAME = 'typings';
 
   /**
@@ -54,7 +54,7 @@ export class TsdHelper {
         }
 
         let typingsFolder = path.resolve(projectRoot, TsdHelper.USER_TYPINGS_FOLDERNAME);
-        let indexFile = path.resolve(typingsFolder, 'cordova-typings.d.ts');
+        let indexFile = path.resolve(typingsFolder, 'luna-typings.d.ts');
 
         // Ensure that the 'typings' folder exits; if not, create it
         if (!LunaProjectHelper.existsSync(typingsFolder)) {
