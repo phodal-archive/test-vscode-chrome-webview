@@ -9,11 +9,6 @@
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [
-		"onCommand:catCoding.start",
-		"onCommand:catCoding.doRefactor",
-		"onWebviewPanel:catCoding"
-	],
 	"main": "./out/extension.js",
 	"scripts": {
 		"vscode:prepublish": "tsc -p ./",
@@ -24,6 +19,9 @@
   "activationEvents": [
     "onLanguage:javascript",
     "onLanguage:typescript",
+    "onCommand:luna.start",
+    "onCommand:luna.doRefactor",
+    "onWebviewPanel:lunaCoding",
     "workspaceContains:luna.project"
   ],
   "contributes": {
