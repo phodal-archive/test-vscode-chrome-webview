@@ -1,3 +1,17 @@
+interface QRCodeResponseSuccess {
+  data: {
+    message: string
+  };
+  status: 'success';
+}
+
+interface QRCodeResponseError {
+  data: {
+    message: string
+  };
+  status: 'success' | 'fail';
+}
+
 interface Luna {
   /** Gets Luna framework version */
   version: string;
@@ -6,12 +20,10 @@ interface Luna {
   ready(): boolean;
 
   /** Call the Modules */
-  call(moduleName:
-         /** QRCODE */
-         'qrcode'  |
-         /** a API 2 */
-         'api2'
-  ): Promise<any>;
+  call(moduleName: 'api2'): Promise<any>;
+
+  /** Call the Modules */
+  call(moduleName: 'qrcode'): Promise<QRCodeResponseSuccess | QRCodeResponseError>;
 }
 
 interface Window {
