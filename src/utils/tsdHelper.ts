@@ -13,7 +13,7 @@ export class TsdHelper {
   private static USER_TYPINGS_FOLDERNAME = 'typings';
 
   /**
-   *   Helper to install type defintion files for Cordova plugins and Ionic projects.
+   *   Helper to install type defintion files for Luna plugins and Ionic projects.
    *   {typingsFolderPath} - the parent folder where the type definitions need to be installed
    *   {typeDefsPath} - the relative paths of all plugin type definitions that need to be
    *                    installed (relative to <project_root>\.vscode\typings)
@@ -93,7 +93,7 @@ export class TsdHelper {
     });
 
     let references = [];
-    let indexFile = path.resolve(projectRoot, TsdHelper.USER_TYPINGS_FOLDERNAME, 'cordova-typings.d.ts');
+    let indexFile = path.resolve(projectRoot, TsdHelper.USER_TYPINGS_FOLDERNAME, 'luna-typings.d.ts');
     try {
       references = fs.readFileSync(indexFile, 'utf8').split('\n');
     } catch (e) {

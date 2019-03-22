@@ -66,7 +66,7 @@ function onFolderAdded(context: vscode.ExtensionContext, folder: vscode.Workspac
   const workspaceRoot = folder.uri.fsPath;
   const lunaProjectRoot = LunaProjectHelper.getLunaProjectRoot(workspaceRoot);
 
-  if (LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
+  if (!LunaProjectHelper.isLunaProject(lunaProjectRoot)) {
     return;
   }
 
@@ -87,14 +87,14 @@ function onFolderAdded(context: vscode.ExtensionContext, folder: vscode.Workspac
       LunaCompletionProvider.TS_DOCUMENT_SELECTOR,
       new LunaCompletionProvider(path.resolve(__dirname, '../snippets/luna.ts.snippets.json'))));
 
+  // install based typings
   TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(lunaProjectRoot), lunaTypings, lunaProjectRoot);
 
+  // install plugins
   addPluginTypeDefinitions(lunaProjectRoot);
 }
 
 function getPluginTypingsJson(): any {
-  console.log(PLUGIN_TYPE_DEFS_PATH);
-
   if (LunaProjectHelper.existsSync(PLUGIN_TYPE_DEFS_PATH)) {
     return require(PLUGIN_TYPE_DEFS_PATH);
   }
@@ -105,11 +105,13 @@ function getPluginTypingsJson(): any {
 
 function addPluginTypeDefinitions(projectRoot: string): void {
   let pluginTypings = getPluginTypingsJson();
-  console.log(pluginTypings);
   if (!pluginTypings) {
     return;
   }
 
-  TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(projectRoot),
-    pluginTypings, projectRoot);
+  let typingsToAdd = Object.keys(pluginTypings).map((pluginName: string) => {
+    return pluginTypings[pluginName].typingFile;
+  });
+
+  TsdHelper.installTypings(LunaProjectHelper.getOrCreateTypingsTargetPath(projectRoot), typingsToAdd, projectRoot);
 }

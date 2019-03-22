@@ -102,10 +102,10 @@ export module Telemetry {
 
     public static addCommonProperties(event: any): void {
       if (Telemetry.isOptedIn) {
-        event.properties['cordova.userId'] = TelemetryUtils.userId;
+        event.properties['luna.userId'] = TelemetryUtils.userId;
       }
 
-      event.properties['cordova.userType'] = TelemetryUtils.userType;
+      event.properties['luna.userType'] = TelemetryUtils.userType;
     }
 
     public static generateGuid(): string {
