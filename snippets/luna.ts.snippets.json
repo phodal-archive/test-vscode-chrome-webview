@@ -24,5 +24,16 @@
       "};"
     ],
     "description": "A snippet for $lunaCode"
+  },
+  "lunaPromiseQrcode": {
+    "prefix": "thenQrcode",
+    "body": [
+      "then((result: QRCodeResponseSuccess) => {",
+      "\t\t",
+      "}, error => {",
+      "\t\t",
+      "});"
+    ],
+    "description": "A snippet for $lunaCode"
   }
 }
